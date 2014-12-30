@@ -24,6 +24,7 @@ var appendToFile = function(fpath,line,message){
 var writeStudioInfo = function(url,filepath){
 	request(url, function(error, response, html){
 		if(!error) {
+			console.log('made request to' + url);
 			var $ = cheerio.load(html);
 			var info = {
 				"account" : null,
@@ -34,7 +35,7 @@ var writeStudioInfo = function(url,filepath){
 
 			var numCharsDescriptionToRemove = 7;
 			info.phone = $(".phone").text().slice(numCharsDescriptionToRemove);
-			$(".info-bar-address a ").children().each(function(i,v){info.address+=($(this).text())});
+			$(".info-bar-address a ").children().each(function(i,v){info.address+=($(this).text());if(!i){info.address+=" "}});
 			info.account =  "The Dailey Method - " + $(".location-title").text();
 
 			//construct line with format : ACCOUNTNAME, Account Phone, WEBSITE, Address
